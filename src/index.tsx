@@ -7,6 +7,7 @@ import { createRoot } from "react-dom/client"
 import Menu from "./pages/Menu"
 import Login from "./pages/Login"
 import Balance from "./pages/Balance"
+import NotFound from "./pages/NotFound"
 
 // styles
 import "./styles/main.css"
@@ -27,6 +28,8 @@ const ATM = () => {
           <Route path="/" element={<Menu />} />
 
           <Route path="/account-balance/" element={<Balance />} />
+
+          <Route path="*" element={<NotFound />} />
         </Routes>
       </Router>
     </GlobalProvider>

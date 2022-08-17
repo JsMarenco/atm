@@ -4,8 +4,6 @@ import { useNavigate } from "react-router-dom"
 
 import { changeTitle } from "../../utils"
 
-import { buttonStyle } from "../../styles/button"
-
 // components
 import ButtonTemplate from "../../components/Button"
 import ToggleTheme from "../../components/ToggleTheme"
@@ -14,6 +12,8 @@ import ToggleTheme from "../../components/ToggleTheme"
 import ButtonRoutes from "../../routes/ButtonRoutes"
 
 import { Grid, Stack, Button } from "@mui/material"
+
+import LogoutIcon from "@mui/icons-material/Logout"
 
 export default function Menu() {
   const navigate = useNavigate()
@@ -40,11 +40,7 @@ export default function Menu() {
             variant="contained"
             color="primary"
             onClick={() => navigate("/login")}
-            sx={{
-              ...buttonStyle,
-              width: "auto",
-              height: "auto",
-            }}
+            startIcon={<LogoutIcon />}
           >
             Log out
           </Button>
