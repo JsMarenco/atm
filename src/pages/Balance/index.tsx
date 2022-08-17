@@ -1,25 +1,28 @@
-import React, { useEffect, useState } from "react"
+import React, { useContext, useEffect, useState } from "react"
+import { useNavigate } from "react-router-dom"
 
 import Navbar from "../../components/Navbar"
 
 import { mainContainerStyle, centeredContainerStyle } from "../../styles/containers"
+import { ClientContext } from "../../context/ClientContext"
 
-import { changeTitle, randomAccountBalance } from "../../utils"
+import { changeTitle } from "../../utils"
 
 import { Paper, Typography, Stack } from "@mui/material"
 
 import CircularProgress from "@mui/material/CircularProgress"
 
 export default function Balance() {
-  const [balance, setBalance] = useState(0)
+  const { balance, isLoggedIn } = useContext(ClientContext)
+
   const [loading, setLoading] = useState(true)
+
+  const navigate = useNavigate()
 
   useEffect(() => {
     changeTitle("Account Balance")
 
-    setBalance(randomAccountBalance())
-
-    setLoading(false)
+    isLoggedIn ? setLoading(false) : navigate("/")
   }, [])
 
   return (

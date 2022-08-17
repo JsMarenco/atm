@@ -66,3 +66,25 @@ export const saveInLocalStorage = (key: string, value: unknown) => {
 export const changeBackground = (background: string) => {
   document.body.style.background = background
 }
+
+export const generateRandomCardNumber = () => {
+  let cardNumer = ""
+
+  for (let i = 0; i < 16; i++) {
+    const random = Math.floor(Math.random() * 10)
+    cardNumer += random
+  }
+
+  // split the string into an array of 4 numbers and add a dash between each number
+  const separatedString = cardNumer.split("").map((number, index) => {
+    if (index % 4 === 0 && index !== 0) {
+      return `-${number}`
+    }
+
+    return number
+  })
+
+  const finalString = separatedString.join("")
+
+  return finalString
+}

@@ -23,9 +23,10 @@ const ATM = () => {
     <GlobalProvider>
       <Router>
         <Routes>
-          <Route path="/login" element={<Login />} />
+          <Route path="/" element={<Login />} />
 
-          <Route path="/" element={<Menu />} />
+          <Route path="/menu/" element={<Menu />} />
+
 
           <Route path="/account-balance/" element={<Balance />} />
 

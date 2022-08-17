@@ -57,5 +57,6 @@ export const changeThemeButton = {
   "&:hover": {
     color: "primary",
   },
-  color: "text.primary"
+  color: "text.primary",
+  fontSize: "2.5rem !important",
 }

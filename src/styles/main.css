@@ -11,3 +11,9 @@ body {
   font-size: 16px;
   /* background-color: #0F1538; */
 }
+
+/* hidde the scroll bar */
+::-webkit-scrollbar {
+  width: 0px;
+  height: 0px;
+}

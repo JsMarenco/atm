@@ -2,6 +2,19 @@
   "name": "interface",
   "version": "0.1.0",
   "private": true,
+  "author": {
+    "name": "Angel Marenco",
+    "email": "jsmarenco.dev@gmail.com",
+    "url": "https://jsmarenco-dev.web.app"
+  },
+  "description": "This projects is that ATM interface",
+  "keywords": [
+    "atm",
+    "interface",
+    "bank",
+    "money"
+  ],
+  "license": "MIT",
   "dependencies": {
     "@emotion/react": "^11.10.0",
     "@emotion/styled": "^11.10.0",

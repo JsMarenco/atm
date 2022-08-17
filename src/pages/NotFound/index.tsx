@@ -1,4 +1,4 @@
-import React from "react"
+import React, { useEffect } from "react"
 import { useNavigate } from "react-router-dom"
 
 import { mainContainerStyle, centeredContainerStyle } from "../../styles/containers"
@@ -6,9 +6,14 @@ import { mainContainerStyle, centeredContainerStyle } from "../../styles/contain
 import { Box, Typography, Button } from "@mui/material"
 
 import HomeIcon from "@mui/icons-material/Home"
+import { changeTitle } from "../../utils"
 
 export default function NotFound() {
   const navigate = useNavigate()
+
+  useEffect(() => {
+    changeTitle("Page not found")
+  }, [])
 
   return (
     <>
@@ -21,18 +26,21 @@ export default function NotFound() {
           <Typography
             variant="h1"
             color="text.primary"
+            align="center"
           >
             <strong>404</strong>
           </Typography>
           <Typography
             variant="h2"
             color="text.primary"
+            align="center"
           >
             Page not found
           </Typography>
           <Typography
-            variant="h5"
+            variant="h6"
             color="text.primary"
+            align="center"
           >
             The page you are looking for does not exist.
           </Typography>
@@ -40,6 +48,7 @@ export default function NotFound() {
           <Typography
             variant="h5"
             color="text.primary"
+            align="center"
             mb={2}
           >
             <strong>What can I do?</strong>

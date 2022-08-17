@@ -16,7 +16,7 @@ export default function Navbar() {
       <Button 
         variant="contained"
         color="primary"
-        onClick={() => navigate("/")}
+        onClick={() => navigate("/menu/")}
         sx={{
           ...navbarButtons,
           bgcolor: "#EA3D79",

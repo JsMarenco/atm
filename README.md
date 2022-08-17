@@ -62,6 +62,9 @@ If you want to contribute to this project, feel free to do so by opening an issu
 ## Links to resources
 * [Figma design](https://www.figma.com/file/HA2wH5V1lWqJi5ygm5OGLm/ATM?node-id=0%3A1)
 
+## Test accounts
+you need to check [accounts](./src/testing/accounts.json), you will see a json file with some test accounts. You can use them to test the application.
+
 ## Author
 JsMarenco
 

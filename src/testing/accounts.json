@@ -1,0 +1,23 @@
+[
+  {
+    "accountNumber": "216-904-458",
+    "lastDigits": "1409",
+    "balance": 984,
+    "pin": "2935",
+    "owner": "Bryant H. Mcneil"
+  },
+  {
+    "accountNumber": "226-809-883",
+    "lastDigits": "8711",
+    "balance": 99,
+    "pin": "4602",
+    "owner": "Jasmine M. Mccoy"
+  },
+  {
+    "accountNumber": "236-189-898",
+    "lastDigits": "8913",
+    "balance": 126,
+    "pin": "3835",
+    "owner": "Adrianna P. Mccoy"
+  }
+]

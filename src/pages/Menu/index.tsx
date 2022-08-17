@@ -2,7 +2,7 @@ import React, { useEffect } from "react"
 
 import { useNavigate } from "react-router-dom"
 
-import { changeTitle } from "../../utils"
+import { changeTitle, generateRandomCardNumber } from "../../utils"
 
 // components
 import ButtonTemplate from "../../components/Button"
@@ -20,6 +20,7 @@ export default function Menu() {
 
   useEffect(() => {
     changeTitle("Menu")
+    generateRandomCardNumber()
   }, [])
 
   return (
@@ -39,8 +40,8 @@ export default function Menu() {
           <Button
             variant="contained"
             color="primary"
-            onClick={() => navigate("/login")}
-            startIcon={<LogoutIcon />}
+            onClick={() => navigate("/")}
+            endIcon={<LogoutIcon />}
           >
             Log out
           </Button>
