@@ -59,6 +59,9 @@ The MIT License (MIT) is a permissive license, which means that the software is 
 ## Contributing
 If you want to contribute to this project, feel free to do so by opening an issue or creating a pull request.
 
+## Links to resources
+* [Figma design](https://www.figma.com/file/HA2wH5V1lWqJi5ygm5OGLm/ATM?node-id=0%3A1)
+
 ## Author
 JsMarenco
 
