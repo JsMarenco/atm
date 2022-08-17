@@ -22,11 +22,7 @@ export default function ToggleTheme() {
         }
         arrow
       >
-        <Box
-          sx={{
-            p: 1,
-          }}
-        >
+        <Box>
           {
             AtmThemeName === "light" ? (
               <DarkModeIcon

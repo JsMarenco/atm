@@ -21,6 +21,7 @@ export const numericButtonStyle = {
   bordeRadius: "5px",
   flexShrink: 0,
   backgroundColor: "#EA3D79",
+  m: 0.5,
 }
 
 export const numericKeyboardStyle = {

@@ -5,14 +5,14 @@ import { createRoot } from "react-dom/client"
 
 // pages
 import Menu from "./pages/Menu"
-
+import Login from "./pages/Login"
 import Balance from "./pages/Balance"
 
 // styles
 import "./styles/main.css"
-import GlobalProvider from "./context/GlobalProvider"
 
 // context
+import GlobalProvider from "./context/GlobalProvider"
 
 const container = document.getElementById("root") as HTMLElement
 const root = createRoot(container)
@@ -22,6 +22,8 @@ const ATM = () => {
     <GlobalProvider>
       <Router>
         <Routes>
+          <Route path="/login" element={<Login />} />
+
           <Route path="/" element={<Menu />} />
 
           <Route path="/account-balance/" element={<Balance />} />

@@ -5,13 +5,17 @@ import React from "react"
 
 import { ToggleModeProvider } from "./ToggleModeContext"
 
+import { NumPadProvider } from "./NumPadContext"
+
 interface IGlobalProvider {
   children: React.ReactNode
 }
 export default function GlobalProvider(props: IGlobalProvider) {
   return (
     <ToggleModeProvider>
-      {props.children}
+      <NumPadProvider>
+        {props.children}
+      </NumPadProvider>
     </ToggleModeProvider>
   )
 }

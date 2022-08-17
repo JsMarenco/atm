@@ -1,17 +1,23 @@
 import React, { useEffect } from "react"
 
+import { useNavigate } from "react-router-dom"
+
 import { changeTitle } from "../../utils"
+
+import { buttonStyle } from "../../styles/button"
 
 // components
 import ButtonTemplate from "../../components/Button"
-
-// routes
-import ButtonRoutes from "../../routes/ButtonRoutes"
-
-import { Grid, Typography, Stack } from "@mui/material"
 import ToggleTheme from "../../components/ToggleTheme"
 
+// Routes
+import ButtonRoutes from "../../routes/ButtonRoutes"
+
+import { Grid, Stack, Button } from "@mui/material"
+
 export default function Menu() {
+  const navigate = useNavigate()
+
   useEffect(() => {
     changeTitle("Menu")
   }, [])
@@ -21,22 +27,27 @@ export default function Menu() {
       <Grid item xs={12}>
         <Stack
           spacing={2}
-          direction="row"
           alignItems="center"
-          justifyContent="center"
+          justifyContent="space-between"
+          direction="row"
           flexWrap="wrap"
+          flexGrow={1}
+          p={2}
         >
-          <Typography
-            variant="h4"
-            align="center"
-            color="text.primary"
-            mt={2}
-            mb={2}
-          >
-            Select an option
-          </Typography>
-
           <ToggleTheme />
+
+          <Button
+            variant="contained"
+            color="primary"
+            onClick={() => navigate("/login")}
+            sx={{
+              ...buttonStyle,
+              width: "auto",
+              height: "auto",
+            }}
+          >
+            Log out
+          </Button>
         </Stack>
       </Grid>
 

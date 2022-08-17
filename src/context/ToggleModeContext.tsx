@@ -1,29 +1,34 @@
-// create a context for toogle the theme mode
-
-import React, { createContext } from "react"
+import React, { createContext, useEffect, useState } from "react"
 
 import { ThemeProvider } from "@mui/material"
 
-import useAtmTheme from "../hooks/useAtmTheme"
+import { light, dark } from "../theme"
+import { changeBackground } from "../utils"
 
-export const ToggleModeContext = createContext({
-  AtmThemeName: "This is the default value",
-  toggleTheme: () => {
-    console.log("This is the default value")
-  },
-  AtmTheme: {},
-})
+interface IToggleModeContext {
+  AtmThemeName: string
+  toggleTheme: () => void
+  AtmTheme: unknown
+}
+
+export const ToggleModeContext = createContext({} as IToggleModeContext)
 
 interface ToggleModeProps {
   children: React.ReactNode
 }
 
 export const ToggleModeProvider = (props: ToggleModeProps) => {
-  const {
-    AtmTheme,
-    toggleTheme,
-    AtmThemeName
-  } = useAtmTheme()
+  const [AtmTheme, setAtmTheme] = useState(light)
+  const [AtmThemeName, setAtmThemeName] = useState("light")
+
+  useEffect(() => {
+    changeBackground(AtmTheme.palette.background.default)
+  }, [AtmThemeName])
+
+  const toggleTheme = () => {
+    setAtmTheme(() => AtmTheme === light ? dark : light)
+    setAtmThemeName(() => AtmThemeName === "dark" ? "light" : "dark")
+  }
 
   return (
     <ToggleModeContext.Provider
