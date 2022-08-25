@@ -28,9 +28,9 @@ const ATM = () => {
 
           <Route path="/menu/" element={<Menu />} />
           
-          <Route path="/change-pin/" element={<ChangePin />} />
+          <Route path="/pin/change/" element={<ChangePin />} />
 
-          <Route path="/account-balance/" element={<Balance />} />
+          <Route path="/balance/" element={<Balance />} />
 
           <Route path="*" element={<NotFound />} />
         </Routes>

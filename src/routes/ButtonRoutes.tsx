@@ -20,7 +20,7 @@ export default function ButtonRoutes() {
       label: "Change Pin",
       icon: <LockOutlinedIcon sx={iconStyle} />,
       onClick: () => {
-        navigate("/change-pin/")
+        navigate("/pin/change/")
       }
     },
     {
@@ -55,7 +55,7 @@ export default function ButtonRoutes() {
       label: "Balance",
       icon: <AccountBalanceOutlinedIcon sx={iconStyle} />,
       onClick: () => {
-        navigate("/account-balance/")
+        navigate("/balance/")
       }
     }
   ]

@@ -58,7 +58,7 @@ export default function NotFound() {
             variant="contained"
             color="primary"
             startIcon={<HomeIcon />}
-            onClick={() => navigate("/")}
+            onClick={() => navigate("/menu/")}
           >
             Go to home page
           </Button>
