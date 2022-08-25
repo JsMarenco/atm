@@ -9,6 +9,7 @@ import Login from "./pages/Login"
 import Balance from "./pages/Balance"
 import NotFound from "./pages/NotFound"
 import ChangePin from "./pages/ChangePin"
+import Operations from "./pages/Operations"
 
 // styles
 import "./styles/main.css"
@@ -31,6 +32,8 @@ const ATM = () => {
           <Route path="/pin/change/" element={<ChangePin />} />
 
           <Route path="/balance/" element={<Balance />} />
+
+          <Route path="/operation/:result" element={<Operations />} />
 
           <Route path="*" element={<NotFound />} />
         </Routes>
