@@ -8,6 +8,7 @@ import Menu from "./pages/Menu"
 import Login from "./pages/Login"
 import Balance from "./pages/Balance"
 import NotFound from "./pages/NotFound"
+import ChangePin from "./pages/ChangePin"
 
 // styles
 import "./styles/main.css"
@@ -26,7 +27,8 @@ const ATM = () => {
           <Route path="/" element={<Login />} />
 
           <Route path="/menu/" element={<Menu />} />
-
+          
+          <Route path="/change-pin/" element={<ChangePin />} />
 
           <Route path="/account-balance/" element={<Balance />} />
 

@@ -2,7 +2,7 @@ import React, { useEffect } from "react"
 
 import { useNavigate } from "react-router-dom"
 
-import { changeTitle, generateRandomCardNumber } from "../../utils"
+import { changeTitle } from "../../utils"
 
 // components
 import ButtonTemplate from "../../components/Button"
@@ -20,7 +20,6 @@ export default function Menu() {
 
   useEffect(() => {
     changeTitle("Menu")
-    generateRandomCardNumber()
   }, [])
 
   return (

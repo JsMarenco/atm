@@ -1,21 +1,19 @@
 import React, { useContext, useEffect, useState } from "react"
 import { useNavigate } from "react-router-dom"
-
 import { mainContainerStyle, centeredContainerStyle } from "../../styles/containers"
-
 import { changeTitle } from "../../utils"
-
 import { Box, Typography } from "@mui/material"
-
 import NumPad from "../../components/NumPad"
-
 import { NumPadContext } from "../../context/NumPadContext"
 import { ClientContext } from "../../context/ClientContext"
-
+import { MessageContext } from "../../context/MessageContext"
 import accounts from "../../testing/accounts.json"
+import { WRONGE_PIN, WRONG_PIN_DESCRIPTION } from "../../components/contants/messages"
 
 export default function Login() {
   const { numPadValue, handleNumPadClear } = useContext(NumPadContext)
+  const { handleMessage } = useContext(MessageContext)
+
   const {
     handleAccountNumber,
     handleLastDigits,
@@ -24,7 +22,7 @@ export default function Login() {
     handleLogIn,
   } = useContext(ClientContext)
 
-  const [message, setMessage] = useState("Enter your PIN")
+  const [message, setMessage] = useState("")
 
   const navigate = useNavigate()
 
@@ -46,12 +44,13 @@ export default function Login() {
       handlePin(res.pin)
       handleBalance(res.balance)
     } else if (numPadValue.length === 4) {
+      setMessage(`${WRONG_PIN_DESCRIPTION}`)
       handleNumPadClear()
 
-      setMessage("Invalid PIN")
+      handleMessage(`${WRONGE_PIN}`, "error")
 
       setTimeout(() => {
-        setMessage("Enter your PIN")
+        setMessage("")
       }, 3000)
     }
   }, [numPadValue])
@@ -66,6 +65,14 @@ export default function Login() {
         >
           <Typography
             variant="h4"
+            color="text.primary"
+            align="center"
+          >
+            Enter your PIN
+          </Typography>
+        
+          <Typography
+            variant="body1"
             color="text.primary"
             align="center"
           >

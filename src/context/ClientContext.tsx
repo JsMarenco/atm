@@ -41,6 +41,7 @@ export const ClientProvider = (props: IClientProps) => {
   }
 
   const handleLogIn = () => {
+    console.log("log in")
     setIsLoggedIn(true)
   }
 
