@@ -6,13 +6,15 @@ import { NumPadContext } from "../../context/NumPadContext"
 import { PIN_NOT_MATCH } from "../../components/contants/messages"
 import { MessageContext } from "../../context/MessageContext"
 import { ClientContext } from "../../context/ClientContext"
-import { Box, Typography } from "@mui/material"
+import { Box } from "@mui/material"
 import { changeTitle } from "../../utils"
 
 export default function ChangePin() {
   const {
     numPadValue,
     handleNumPadClear,
+    handleNumPadInstructions,
+    handleNumPadMessage,
   } = useContext(NumPadContext)
 
   const { handleMessage } = useContext(MessageContext)
@@ -21,14 +23,12 @@ export default function ChangePin() {
   const navigate = useNavigate()
 
   const [step, setStep] = useState("new")
-  const [message, setMessage] = useState("")
-  const [instruction, setInstruction] = useState("")
   const [newPin, setNewPin] = useState("")
 
   useEffect(() => { changeTitle("Change PIN") }, [])
 
   useEffect(() => {
-    step === "new" ? setInstruction("Enter your new pin") : setInstruction("Confirm your new pin")
+    step === "new" ? handleNumPadInstructions("Enter your new pin") : handleNumPadInstructions("Confirm your new pin")
 
     if (step === "new" && numPadValue.length === 4) {
       setNewPin(() => numPadValue)
@@ -43,12 +43,10 @@ export default function ChangePin() {
 
       } else {
         handleNumPadClear()
-        setMessage(PIN_NOT_MATCH)
+        handleNumPadMessage(PIN_NOT_MATCH)
         handleMessage(PIN_NOT_MATCH, "error")
-        setInstruction("Enter your new pin")
+        handleNumPadInstructions("Enter your new pin")
         setStep("new")
-
-        setTimeout(() => { setMessage("") }, 2000)
       }
     }
   }, [numPadValue, step])
@@ -57,22 +55,6 @@ export default function ChangePin() {
     <>
       <Box sx={mainContainerStyle}>
         <Box sx={centeredContainerStyle}>
-          <Typography
-            variant="h4"
-            color="text.primary"
-            align="center"
-          >
-            {instruction}
-          </Typography>
-
-          <Typography
-            variant="body1"
-            color="text.primary"
-            align="center"
-          >
-            {message}
-          </Typography>
-
           <NumPad />
         </Box>
       </Box>
