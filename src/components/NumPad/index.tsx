@@ -14,8 +14,10 @@ const nums = ["1", "2", "3", "4", "5", "6", "7", "8", "9",]
 
 export default function NumPad() {
   const {
-    handleNumPadValue,
     numPadValue,
+    numPadMessage,
+    numPadInstructions,
+    handleNumPadValue,
     handleNumPadClear,
     handleNumPadDelete,
   } = useContext(NumPadContext)
@@ -23,6 +25,22 @@ export default function NumPad() {
   return (
     <>
       <Box>
+        <Typography 
+          variant="h5" 
+          color="text.primary"
+          align="center"
+        >
+          {numPadInstructions}
+        </Typography>
+
+        <Typography 
+          variant="h6" 
+          color="text.primary"
+          align="center"
+        >
+          {numPadMessage}
+        </Typography>
+
         <Typography
           variant="h4"
           color="text.primary"
