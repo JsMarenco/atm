@@ -5,7 +5,6 @@ import { Box, Typography, Button, Stack, CircularProgress } from "@mui/material"
 import { mainContainerStyle, centeredContainerStyle } from "../../styles/containers"
 import ErrorIcon from "@mui/icons-material/Error"
 import CheckCircleIcon from "@mui/icons-material/CheckCircle"
-import HomeIcon from "@mui/icons-material/Home"
 import ReportIcon from "@mui/icons-material/Report"
 
 export default function Operations() {
@@ -18,13 +17,14 @@ export default function Operations() {
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
-    result !== "success" && result !== "error" && navigate("/menu/")
-
     if (result === "success") {
       changeTitle("Operation success")
     } else if (result === "fail") {
       changeTitle("Operation failed")
+    } else if (result === "canceled") {
+      changeTitle("Operation canceled")
     }
+
     setLoading(false)
 
     setTimeout(() => { navigate("/menu/") }, 5000)
@@ -57,7 +57,7 @@ export default function Operations() {
                 color="text.primary"
                 align="center"
               >
-                {result === "success" ? "Operation success" : "Operation failed"}
+                {result === "success" ? "Operation success" : result === "fail" ? "Operation failed" : "Operation canceled"}
               </Typography>
 
               <Typography
@@ -65,7 +65,7 @@ export default function Operations() {
                 color="text.primary"
                 align="center"
               >
-                {result === "success" ? "Thank you for using our service" : "Please try again"}
+                {result === "fail" ? "Please try again" : "Thanks for using our services"}
               </Typography>
 
               <Typography
@@ -76,26 +76,11 @@ export default function Operations() {
                 You will be redirected to the main menu in 5 seconds
               </Typography>
 
-              <Stack
-                mt={2}
-              >
-                {
-                  result === "success" ? (
-                    <Button
-                      variant="contained"
-                      color="primary"
-                      onClick={() => navigate("/menu/")}
-                      startIcon={<HomeIcon />}
-                    >
-                      <Typography
-                        variant="body2"
-                        color="text.primary"
-                        align="center"
-                      >
-                        Go to menu
-                      </Typography>
-                    </Button>
-                  ) : (
+              {
+                result === "fail" && (
+                  <Stack
+                    mt={2}
+                  >
                     <Button
                       variant="contained"
                       color="primary"
@@ -110,9 +95,9 @@ export default function Operations() {
                         Report issue
                       </Typography>
                     </Button>
-                  )
-                }
-              </Stack>
+                  </Stack>
+                )
+              }
             </Box>
           )
         }
