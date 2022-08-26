@@ -24,10 +24,10 @@ export default function ButtonRoutes() {
       }
     },
     {
-      label: "Make a Deposit",
+      label: "Make Deposit",
       icon: <ArrowCircleUpOutlinedIcon sx={iconStyle} />,
       onClick: () => {
-        navigate("/make-a-deposit/")
+        navigate("/make-deposit/")
       }
     },
     {
