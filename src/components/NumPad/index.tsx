@@ -20,21 +20,22 @@ export default function NumPad() {
     handleNumPadValue,
     handleNumPadClear,
     handleNumPadDelete,
+    showNumPadValue,
   } = useContext(NumPadContext)
 
   return (
     <>
       <Box>
-        <Typography 
-          variant="h5" 
+        <Typography
+          variant="h5"
           color="text.primary"
           align="center"
         >
           {numPadInstructions}
         </Typography>
 
-        <Typography 
-          variant="h6" 
+        <Typography
+          variant="h6"
           color="text.primary"
           align="center"
         >
@@ -47,12 +48,12 @@ export default function NumPad() {
           align="center"
         >
           {
-            // replace the pin with asterisks
-            numPadValue === "" ? (
-              "~~~~"
+            showNumPadValue ? (
+              numPadValue === "" ? "~~~~" : numPadValue
             ) : (
-              numPadValue.replace(/./g, "*")
-              // numPadValue
+              // replace the pin with asterisks
+              numPadValue === "" ? "~~~~" : numPadValue.replace(/./g, "*"
+              )
             )
           }
         </Typography>

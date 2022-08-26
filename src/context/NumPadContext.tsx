@@ -1,15 +1,16 @@
 import React, { createContext, useState } from "react"
 
-
 interface INumPadContext {
   numPadValue: string
   numPadMessage: string
   numPadInstructions: string
+  showNumPadValue: boolean
   handleNumPadValue: (value: string) => void
   handleNumPadClear: () => void
   handleNumPadDelete: () => void
   handleNumPadMessage: (message: string) => void
   handleNumPadInstructions: (instructions: string) => void
+  handleNumPadShowValue: (action?: string) => void
 }
 
 interface NumPadProps {
@@ -22,6 +23,7 @@ export const NumPadProvider = (props: NumPadProps) => {
   const [numPadValue, setNumPadValue] = useState("")
   const [numPadInstructions, setNumPadInstructions] = useState("")
   const [numPadMessage, setNumPadMessage] = useState("")
+  const [showNumPadValue, setShowNumPadValue] = useState(false)
 
   const handleNumPadValue = (value: string) => {
     setNumPadValue(numPadValue + value)
@@ -45,17 +47,29 @@ export const NumPadProvider = (props: NumPadProps) => {
     setNumPadInstructions(instructions)
   }
 
+  const handleNumPadShowValue = (action?: string) => {
+    if (action === "show") {
+      setShowNumPadValue(true)
+    } else if (action === "hide") {
+      setShowNumPadValue(false)
+    } else {
+      setShowNumPadValue(!showNumPadValue)
+    }
+  }
+
   return (
     <NumPadContext.Provider
       value={{
         numPadValue,
         numPadInstructions,
         numPadMessage,
+        showNumPadValue,
         handleNumPadValue,
         handleNumPadClear,
         handleNumPadDelete,
         handleNumPadMessage,
         handleNumPadInstructions,
+        handleNumPadShowValue,
       }}
     >
       {props.children}
