@@ -28,7 +28,7 @@ export default function ChangePin() {
   useEffect(() => { changeTitle("Change PIN") }, [])
 
   useEffect(() => {
-    step === "new" ? handleNumPadInstructions("Enter your new pin") : handleNumPadInstructions("Confirm your new pin")
+    handleNumPadInstructions(step === "new" ? "Enter new PIN" : "Confirm new PIN")
 
     if (step === "new" && numPadValue.length === 4) {
       setNewPin(() => numPadValue)
@@ -45,7 +45,7 @@ export default function ChangePin() {
         handleNumPadClear()
         handleNumPadMessage(PIN_NOT_MATCH)
         handleMessage(PIN_NOT_MATCH, "error")
-        handleNumPadInstructions("Enter your new pin")
+        handleNumPadInstructions("Enter new pin")
         setStep("new")
       }
     }
