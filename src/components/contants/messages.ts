@@ -5,3 +5,6 @@ export const PIN_NOT_MATCH = "PINs not match"
 // Make deposit message
 export const ERROR_LARGE_AMOUNT = "Large amount, please enter smaller amount, or contact to admin"
 export const ERROR_LARGE_AMOUNT_DESCRIPTION = "Please enter smaller amount"
+
+// Make withdraw message
+export const INSUFFICIENT_BALANCE = "Insufficient balance, please enter smaller amount"

@@ -7,6 +7,10 @@ export const buttonStyle = {
   alignItems: "center",
   justifyContent: "center",
   flexDirection: "column",
+  boxShadow: "0px 10px 15px -3px rgba(0,0,0,0.1)",
+  "&:hover": {
+    backgroundColor: "primary.dark",
+  }
 }
 
 export const iconStyle = {
