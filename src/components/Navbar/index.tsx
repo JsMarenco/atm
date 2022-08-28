@@ -1,29 +1,50 @@
 import React from "react"
-
 import { useNavigate } from "react-router-dom"
+import { navbarButtons } from "../../styles/button"
+import { Stack, Button } from "@mui/material"
+import HomeIcon from "@mui/icons-material/Home"
+import { centeredContainerStyle } from "../../styles/containers"
 
-import { navbarContainer, navbarButtons } from "../../styles/button"
+interface INavbarProps {
+  children?: React.ReactNode
+  showMenuButton?: boolean
+}
 
-import { Paper, Button } from "@mui/material"
+export default function Navbar(props: INavbarProps) {
+  const { showMenuButton = true } = props
 
-export default function Navbar() {
   const navigate = useNavigate()
 
   return (
-    <Paper
-      sx={navbarContainer}
+    <Stack
+      spacing={2}
+      alignItems="center"
+      justifyContent="space-between"
+      direction="row"
+      sx={{
+        ...centeredContainerStyle,
+        height: "auto",
+        p: 1,
+        bg: "none",
+        boxShadow: "none",
+        flexDirection: "row",
+      }}
     >
-      <Button 
-        variant="contained"
-        color="primary"
-        onClick={() => navigate("/menu/")}
-        sx={{
-          ...navbarButtons,
-          bgcolor: "#EA3D79",
-        }}
-      >
-        Home
-      </Button>
-    </Paper>
+      {
+        showMenuButton && (
+          <Button
+            variant="outlined"
+            color="secondary"
+            onClick={() => navigate("/menu/")}
+            sx={navbarButtons}
+            startIcon={<HomeIcon />}
+          >
+            Menu
+          </Button>
+        )
+      }
+
+      {props.children}
+    </Stack>
   )
 }

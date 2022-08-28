@@ -40,10 +40,9 @@ export const numericKeyboardStyle = {
 }
 
 export const navbarButtons = {
-  m: 1,
-  p: 1,
-  px: 3,
   borderRadius: "10px",
+  alignItems: "center",
+  color: "text.primary",
 }
 
 export const navbarContainer = {
