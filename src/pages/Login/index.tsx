@@ -20,6 +20,7 @@ export default function Login() {
     handlePin,
     handleBalance,
     handleLogIn,
+    handleClientReset,
   } = useContext(ClientContext)
 
   const [message, setMessage] = useState("")
@@ -27,6 +28,7 @@ export default function Login() {
   const navigate = useNavigate()
 
   useEffect(() => {
+    handleClientReset()
     changeTitle("Login")
   }, [])
 
