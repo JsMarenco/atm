@@ -11,6 +11,7 @@ interface INumPadContext {
   handleNumPadMessage: (message: string) => void
   handleNumPadInstructions: (instructions: string) => void
   handleNumPadShowValue: (action?: string) => void
+  handleNumPadReset: () => void
 }
 
 interface NumPadProps {
@@ -57,6 +58,13 @@ export const NumPadProvider = (props: NumPadProps) => {
     }
   }
 
+  const handleNumPadReset = () => {
+    setNumPadValue("")
+    setNumPadMessage("")
+    setNumPadInstructions("")
+    setShowNumPadValue(false)
+  }
+
   return (
     <NumPadContext.Provider
       value={{
@@ -70,6 +78,7 @@ export const NumPadProvider = (props: NumPadProps) => {
         handleNumPadMessage,
         handleNumPadInstructions,
         handleNumPadShowValue,
+        handleNumPadReset,
       }}
     >
       {props.children}
