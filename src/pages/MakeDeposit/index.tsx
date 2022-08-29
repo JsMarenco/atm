@@ -1,176 +1,241 @@
 import React, { useContext, useEffect, useState } from "react"
-import { Box, Typography, Button, Stack } from "@mui/material"
+import { Box, Typography, Button } from "@mui/material"
 import { mainContainerStyle, centeredContainerStyle } from "../../styles/containers"
 import { changeTitle } from "../../utils"
 import NumPad from "../../components/NumPad"
 import { NumPadContext } from "../../context/NumPadContext"
-import NavigateNextIcon from "@mui/icons-material/NavigateNext"
 import { ERROR_LARGE_AMOUNT, ERROR_LARGE_AMOUNT_DESCRIPTION } from "../../components/contants/messages"
 import { MessageContext } from "../../context/MessageContext"
 import { useNavigate } from "react-router-dom"
 import DoneIcon from "@mui/icons-material/Done"
 import CloseIcon from "@mui/icons-material/Close"
+import Navbar from "../../components/Navbar"
+import AccountCircleIcon from "@mui/icons-material/AccountCircle"
+import { navbarButtons } from "../../styles/button"
+import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos"
+import { ClientContext } from "../../context/ClientContext"
 
-export default function MakeDeposit() {
+const FIRST_STEP = "account-to-deposit"
+const SECOND_STEP = "amount-to-deposit"
+const THIRD_STEP = "confirm-deposit"
+
+export default function MakeDepositV2() {
   const {
     numPadValue,
     handleNumPadInstructions,
     handleNumPadMessage,
     handleNumPadShowValue,
     handleNumPadClear,
+    handleNumPadReset,
   } = useContext(NumPadContext)
 
-  const {
-    handleMessage,
-  } = useContext(MessageContext)
+  const { handleMessage, } = useContext(MessageContext)
+  const { handleBalance } = useContext(ClientContext)
 
   const navigate = useNavigate()
 
-  const [step, setStep] = useState("acc-to-deposit")
-  const [amount, setAmount] = useState("")
-  const [account, setAccount] = useState("")
-  const [depositConfirmation, setDepositConfirmation] = useState(false)
-
   useEffect(() => { changeTitle("Make Deposit"), handleNumPadShowValue("show") }, [])
 
+  const [depositToMyAccount, setdepositToMyAccount] = useState(false)
+  const [depositToExternalAccount, setDepositToExternalAccount] = useState(false)
+
+  const [step, setStep] = useState("")
+  const [amount, setAmount] = useState("")
+  const [externalAccount, setExternalAccount] = useState("")
+  const [externalAccountOwnerName, setExternalAccountOwnerName] = useState("")
+  const [isSure, setIsSure] = useState(false)
+  const [showNumPad, setShowNumPad] = useState(false)
+
+  useEffect(() => { handleNumPadClear() }, [])
+
   useEffect(() => {
-    if (step === "acc-to-deposit") {
-      handleNumPadInstructions("Enter account number")
-    } else if (step === "amount-to-deposit") {
-      handleNumPadInstructions("Enter amount to deposit")
-    } else if (step === "confirm-deposit") {
-      handleNumPadInstructions("Confirm deposit")
-    }
+    handleNumPadInstructions(step === FIRST_STEP ? "Enter account number" : "Enter amount")
+    setShowNumPad(step === FIRST_STEP || step === SECOND_STEP)
+  }, [step, depositToMyAccount, depositToExternalAccount])
 
-    if (step === "acc-to-deposit" && numPadValue.length === 6) {
-      setStep("amount-to-deposit")
-      setAccount(numPadValue)
-      handleNumPadClear()
-    } else if (step === "amount-to-deposit") {
-      depositConfirmation && (setStep("confirm-deposit"), handleNumPadClear())
-
+  useEffect(() => {
+    if (step === SECOND_STEP && depositToMyAccount) {
       if (numPadValue.length > 5) {
         setAmount("")
-        handleNumPadClear()
-        handleMessage(ERROR_LARGE_AMOUNT, "error")
         handleNumPadMessage(ERROR_LARGE_AMOUNT_DESCRIPTION)
+        handleMessage(ERROR_LARGE_AMOUNT, "error")
       } else {
         setAmount(numPadValue)
       }
     }
-  }, [step, numPadValue])
+
+    if (step === FIRST_STEP && numPadValue.length === 6 && depositToExternalAccount) {
+      setStep(SECOND_STEP)
+      setExternalAccount(numPadValue)
+      setExternalAccountOwnerName("Miguel Angel Marenco Mercado")
+      handleNumPadClear()
+
+    } else if (step === SECOND_STEP && depositToExternalAccount) {
+      if (numPadValue.length > 5) {
+        setAmount("")
+        handleNumPadMessage(ERROR_LARGE_AMOUNT_DESCRIPTION)
+        handleMessage(ERROR_LARGE_AMOUNT, "error")
+      } else {
+        setAmount(numPadValue)
+      }
+    }
+  }, [step, depositToMyAccount, isSure, numPadValue, depositToExternalAccount])
 
   const cancelDeposit = () => {
-    handleNumPadShowValue("hide")
-    handleNumPadClear()
-    setAmount("")
-    setAccount("")
-    setDepositConfirmation(false)
+    handleNumPadReset()
+    resetComponent()
     navigate("/operation/canceled/")
   }
 
-  const confirmDeposit = () => {
-    setDepositConfirmation(true)
-    handleNumPadShowValue("hide")
+  const confirmDepositToMyAccount = () => {
+    handleNumPadReset()
+    resetComponent()
+    handleBalance(Number(amount))
     navigate("/operation/success/")
-    handleNumPadClear()
+  }
+
+  const confirmDepositToExternalAccount = () => {
+    handleNumPadReset()
+    resetComponent()
+    navigate("/operation/success/")
+  }
+
+  const resetComponent = () => {
+    setStep("")
+    setAmount("")
+    setExternalAccount("")
+    setIsSure(false)
+    setShowNumPad(false)
   }
 
   return (
-    <>
+    <Box
+      sx={mainContainerStyle}
+    >
       <Box
-        sx={mainContainerStyle}
+        sx={centeredContainerStyle}
       >
-        <Box
-          sx={centeredContainerStyle}
-        >
-          {
-            depositConfirmation ? (
-              <>
-                <Typography
-                  variant="h5"
-                  color="text.primary"
-                  align="center"
+        {
+          !depositToMyAccount && !depositToExternalAccount && (
+            <>
+              <Typography variant="h5" color="text.primary" align="center">
+                Where do you want to deposit?
+              </Typography>
+
+              <Navbar
+                showMenuButton={false}
+              >
+                <Button
+                  variant="outlined"
+                  color="secondary"
+                  sx={navbarButtons}
+                  startIcon={<AccountCircleIcon />}
+                  onClick={() => {
+                    setdepositToMyAccount(true)
+                    setStep(SECOND_STEP)
+                  }}
                 >
-                  Account owner
-                </Typography>
+                  My account
+                </Button>
 
-                <Typography
-                  variant="h3"
-                  color="text.primary"
-                  align="center"
+                <Button
+                  variant="outlined"
+                  color="secondary"
+                  sx={navbarButtons}
+                  startIcon={<AccountCircleIcon />}
+                  onClick={() => {
+                    setDepositToExternalAccount(true)
+                    setStep(FIRST_STEP)
+                  }}
                 >
-                  Jose Daniel Ramirez Perez
-                </Typography>
+                  External account
+                </Button>
+              </Navbar>
+            </>
+          )
+        }
 
-                <Typography
-                  variant="h5"
-                  color="text.primary"
-                  align="center"
+        {
+          showNumPad && (
+            <>
+              <NumPad />
+
+              <Navbar
+                showMenuButton={false}
+              >
+                <Button
+                  variant="outlined"
+                  color="secondary"
+                  sx={navbarButtons}
+                  endIcon={<ArrowForwardIosIcon />}
+                  onClick={() => {
+                    setIsSure(true)
+                    step === FIRST_STEP ? setStep(SECOND_STEP) : setStep(THIRD_STEP)
+                  }}
+                  disabled={amount === ""}
                 >
-                  Are you sure?
-                </Typography>
+                  Next
+                </Button>
+              </Navbar>
+            </>
+          )
+        }
 
-                <Typography
-                  variant="h6"
-                  color="text.primary"
-                  align="center"
-                >
-                  You are about to deposit ${amount} to account {account}
-                </Typography>
-
-                <Stack 
-                  spacing={2}
-                  justifyContent="center"
-                  alignItems="center"
-                  direction="row"
-                >
-                  <Button
-                    variant="contained" 
-                    color="primary"
-                    startIcon={<DoneIcon />}
-                    onClick={confirmDeposit}
-                  >
-                    Yes, I am sure  
-                  </Button>
-
-                  <Button
-                    variant="contained" 
-                    color="primary"
-                    startIcon={<CloseIcon />}
-                    onClick={cancelDeposit}
-                  >
-                    No, take me back
-                  </Button>
-                </Stack>
-              </>
-            ) : (
-              <>
-                <NumPad />
-
+        {
+          (depositToMyAccount || depositToExternalAccount) && isSure && (
+            <>
+              <Typography
+                variant="h5"
+                color="text.primary"
+                align="center"
+              >
                 {
-                  step === "amount-to-deposit" && (
-                    <Button
-                      variant="contained"
-                      color="primary"
-                      onClick={() => {
-                        setStep("comfirm-deposit")
-                        handleNumPadClear()
-                        setDepositConfirmation(true)
-                      }}
-                      sx={{ mt: 1, }}
-                      endIcon={<NavigateNextIcon />}
-                      disabled={amount === ""}
-                    >
-                      Next
-                    </Button>
-                  )
+                  depositToExternalAccount && "Account to deposit"
                 }
-              </>
-            )
-          }
-        </Box>
+              </Typography>
+
+              <Typography
+                variant="h4"
+                color="text.primary"
+                align="center"
+              >
+                {externalAccountOwnerName}
+              </Typography>
+
+              <Typography variant="h5" color="text.primary" align="center">
+                {`You will deposit ${amount} to ${externalAccount === "" ? "your account" : `#${externalAccount}`}`}
+              </Typography>
+
+              <Typography variant="h6" color="text.primary" align="center">
+                Are you sure?
+              </Typography>
+
+              <Navbar
+                showMenuButton={false}
+              >
+                {
+                  ["Yes", "No"].map((option, index) => (
+                    <Button
+                      variant="outlined"
+                      color="secondary"
+                      sx={navbarButtons}
+                      startIcon={index === 0 ? <DoneIcon /> : <CloseIcon />}
+                      onClick={() => {
+                        option === "Yes" ? (
+                          depositToMyAccount ? confirmDepositToMyAccount() : confirmDepositToExternalAccount()
+                        ) : cancelDeposit()
+                      }}
+                      key={index}
+                    >
+                      {option}
+                    </Button>
+                  ))
+                }
+              </Navbar>
+            </>
+          )
+        }
       </Box>
-    </>
+    </Box>
   )
 }
