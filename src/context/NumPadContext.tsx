@@ -39,6 +39,7 @@ export const NumPadProvider = (props: NumPadProps) => {
   }
 
   const handleNumPadMessage = (message: string) => {
+    setNumPadValue("")
     setNumPadMessage(message)
 
     setTimeout(() => { setNumPadMessage("") }, 3000)
