@@ -10,7 +10,7 @@ interface IClientContext {
   handlePin: (value: string) => void
   handleBalance: (value: number) => void
   handleLastDigits: (value: string) => void
-  clearContext: () => void
+  handleClientReset: () => void
   handleLogIn: () => void
 }
 
@@ -37,7 +37,7 @@ export const ClientProvider = (props: IClientProps) => {
     setPin(value)
   }
   const handleBalance = (value: number) => {
-    setBalance(value)
+    setBalance(balance + value)
   }
 
   const handleLogIn = () => {
@@ -45,7 +45,7 @@ export const ClientProvider = (props: IClientProps) => {
     setIsLoggedIn(true)
   }
 
-  const clearContext = () => {
+  const handleClientReset = () => {
     setAccountNumber("")
     setLastDigits("")
     setPin("")
@@ -65,7 +65,7 @@ export const ClientProvider = (props: IClientProps) => {
         handleLastDigits,
         handlePin,
         handleBalance,
-        clearContext,
+        handleClientReset,
         handleLogIn
       }}
     >
