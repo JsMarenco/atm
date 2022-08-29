@@ -7,7 +7,7 @@ export const mainContainerStyle = {
 
 export const centeredContainerStyle = {
   width: "95%",
-  maxWidth: "500px",
+  maxWidth: "550px",
   display: "flex",
   alignItems: "center",
   justifyContent: "center",

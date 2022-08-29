@@ -43,6 +43,7 @@ export const navbarButtons = {
   borderRadius: "10px",
   alignItems: "center",
   color: "text.primary",
+  m: .5,
 }
 
 export const navbarContainer = {
