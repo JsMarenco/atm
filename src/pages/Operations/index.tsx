@@ -73,7 +73,7 @@ export default function Operations() {
                 color="text.primary"
                 align="center"
               >
-                You will be redirected to the main menu in 5 seconds
+                You will be redirected to menu in 5 seconds
               </Typography>
 
               {

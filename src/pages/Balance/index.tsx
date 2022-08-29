@@ -1,15 +1,10 @@
 import React, { useContext, useEffect, useState } from "react"
 import { useNavigate } from "react-router-dom"
-
 import Navbar from "../../components/Navbar"
-
 import { mainContainerStyle, centeredContainerStyle } from "../../styles/containers"
 import { ClientContext } from "../../context/ClientContext"
-
 import { changeTitle } from "../../utils"
-
 import { Paper, Typography, Stack } from "@mui/material"
-
 import CircularProgress from "@mui/material/CircularProgress"
 
 export default function Balance() {
@@ -60,8 +55,9 @@ export default function Balance() {
               </Typography>
             </Paper>
 
-            <Navbar />
-
+            <Navbar 
+              showCancelButton={false}
+            />
           </>
         )
       }
