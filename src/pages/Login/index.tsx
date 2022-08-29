@@ -11,7 +11,7 @@ import accounts from "../../testing/accounts.json"
 import { WRONGE_PIN, WRONG_PIN_DESCRIPTION } from "../../components/contants/messages"
 
 export default function Login() {
-  const { numPadValue, handleNumPadClear } = useContext(NumPadContext)
+  const { numPadValue, handleNumPadClear, handleNumPadMessage, handleNumPadInstructions } = useContext(NumPadContext)
   const { handleMessage } = useContext(MessageContext)
 
   const {
@@ -23,13 +23,12 @@ export default function Login() {
     handleClientReset,
   } = useContext(ClientContext)
 
-  const [message, setMessage] = useState("")
-
   const navigate = useNavigate()
 
   useEffect(() => {
     handleClientReset()
     changeTitle("Login")
+    handleNumPadInstructions("Enter your PIN")
   }, [])
 
   useEffect(() => {
@@ -46,41 +45,16 @@ export default function Login() {
       handlePin(res.pin)
       handleBalance(res.balance)
     } else if (numPadValue.length === 4) {
-      setMessage(`${WRONG_PIN_DESCRIPTION}`)
-      handleNumPadClear()
-
+      handleNumPadMessage(`${WRONG_PIN_DESCRIPTION}`)
       handleMessage(`${WRONGE_PIN}`, "error")
-
-      setTimeout(() => {
-        setMessage("")
-      }, 3000)
+      handleNumPadClear()
     }
   }, [numPadValue])
 
   return (
     <>
-      <Box
-        sx={mainContainerStyle}
-      >
-        <Box
-          sx={centeredContainerStyle}
-        >
-          <Typography
-            variant="h4"
-            color="text.primary"
-            align="center"
-          >
-            Enter your PIN
-          </Typography>
-        
-          <Typography
-            variant="body1"
-            color="text.primary"
-            align="center"
-          >
-            {message}
-          </Typography>
-
+      <Box sx={mainContainerStyle}>
+        <Box sx={centeredContainerStyle}>
           <NumPad />
         </Box>
       </Box>
