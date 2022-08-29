@@ -14,6 +14,7 @@ import AccountCircleIcon from "@mui/icons-material/AccountCircle"
 import { navbarButtons } from "../../styles/button"
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos"
 import { ClientContext } from "../../context/ClientContext"
+import ATMContainer from "../../components/ATMContainer"
 
 const FIRST_STEP = "account-to-deposit"
 const SECOND_STEP = "amount-to-deposit"
@@ -30,7 +31,7 @@ export default function MakeDepositV2() {
   } = useContext(NumPadContext)
 
   const { handleMessage, } = useContext(MessageContext)
-  const { handleBalance } = useContext(ClientContext)
+  const { handleBalance, balance } = useContext(ClientContext)
 
   const navigate = useNavigate()
 
@@ -90,7 +91,7 @@ export default function MakeDepositV2() {
   const confirmDepositToMyAccount = () => {
     handleNumPadReset()
     resetComponent()
-    handleBalance(Number(amount))
+    handleBalance(balance + Number(amount))
     navigate("/operation/success/")
   }
 
@@ -109,133 +110,131 @@ export default function MakeDepositV2() {
   }
 
   return (
-    <Box
-      sx={mainContainerStyle}
-    >
-      <Box
-        sx={centeredContainerStyle}
-      >
-        {
-          !depositToMyAccount && !depositToExternalAccount && (
-            <>
-              <Typography variant="h5" color="text.primary" align="center">
-                Where do you want to deposit?
-              </Typography>
+    <ATMContainer>
+      <Box sx={mainContainerStyle}>
+        <Box sx={centeredContainerStyle}>
+          {
+            !depositToMyAccount && !depositToExternalAccount && (
+              <>
+                <Typography variant="h5" color="text.primary" align="center">
+                  Where do you want to deposit?
+                </Typography>
 
-              <Navbar
-                showMenuButton={false}
-              >
-                <Button
-                  variant="outlined"
-                  color="secondary"
-                  sx={navbarButtons}
-                  startIcon={<AccountCircleIcon />}
-                  onClick={() => {
-                    setdepositToMyAccount(true)
-                    setStep(SECOND_STEP)
-                  }}
+                <Navbar
+                  showMenuButton={false}
                 >
-                  My account
-                </Button>
+                  <Button
+                    variant="outlined"
+                    color="secondary"
+                    sx={navbarButtons}
+                    startIcon={<AccountCircleIcon />}
+                    onClick={() => {
+                      setdepositToMyAccount(true)
+                      setStep(SECOND_STEP)
+                    }}
+                  >
+                    My account
+                  </Button>
 
-                <Button
-                  variant="outlined"
-                  color="secondary"
-                  sx={navbarButtons}
-                  startIcon={<AccountCircleIcon />}
-                  onClick={() => {
-                    setDepositToExternalAccount(true)
-                    setStep(FIRST_STEP)
-                  }}
+                  <Button
+                    variant="outlined"
+                    color="secondary"
+                    sx={navbarButtons}
+                    startIcon={<AccountCircleIcon />}
+                    onClick={() => {
+                      setDepositToExternalAccount(true)
+                      setStep(FIRST_STEP)
+                    }}
+                  >
+                    External account
+                  </Button>
+                </Navbar>
+              </>
+            )
+          }
+
+          {
+            showNumPad && (
+              <>
+                <NumPad />
+
+                <Navbar
+                  showMenuButton={false}
                 >
-                  External account
-                </Button>
-              </Navbar>
-            </>
-          )
-        }
+                  <Button
+                    variant="outlined"
+                    color="secondary"
+                    sx={navbarButtons}
+                    endIcon={<ArrowForwardIosIcon />}
+                    onClick={() => {
+                      setIsSure(true)
+                      step === FIRST_STEP ? setStep(SECOND_STEP) : setStep(THIRD_STEP)
+                    }}
+                    disabled={amount === ""}
+                  >
+                    Next
+                  </Button>
+                </Navbar>
+              </>
+            )
+          }
 
-        {
-          showNumPad && (
-            <>
-              <NumPad />
-
-              <Navbar
-                showMenuButton={false}
-              >
-                <Button
-                  variant="outlined"
-                  color="secondary"
-                  sx={navbarButtons}
-                  endIcon={<ArrowForwardIosIcon />}
-                  onClick={() => {
-                    setIsSure(true)
-                    step === FIRST_STEP ? setStep(SECOND_STEP) : setStep(THIRD_STEP)
-                  }}
-                  disabled={amount === ""}
+          {
+            (depositToMyAccount || depositToExternalAccount) && isSure && (
+              <>
+                <Typography
+                  variant="h5"
+                  color="text.primary"
+                  align="center"
                 >
-                  Next
-                </Button>
-              </Navbar>
-            </>
-          )
-        }
+                  {
+                    depositToExternalAccount && "Account to deposit"
+                  }
+                </Typography>
 
-        {
-          (depositToMyAccount || depositToExternalAccount) && isSure && (
-            <>
-              <Typography
-                variant="h5"
-                color="text.primary"
-                align="center"
-              >
-                {
-                  depositToExternalAccount && "Account to deposit"
-                }
-              </Typography>
+                <Typography
+                  variant="h4"
+                  color="text.primary"
+                  align="center"
+                >
+                  {externalAccountOwnerName}
+                </Typography>
 
-              <Typography
-                variant="h4"
-                color="text.primary"
-                align="center"
-              >
-                {externalAccountOwnerName}
-              </Typography>
+                <Typography variant="h5" color="text.primary" align="center">
+                  {`You will deposit ${"$" + amount} to ${externalAccount === "" ? "your account" : `#${externalAccount}`}`}
+                </Typography>
 
-              <Typography variant="h5" color="text.primary" align="center">
-                {`You will deposit ${amount} to ${externalAccount === "" ? "your account" : `#${externalAccount}`}`}
-              </Typography>
+                <Typography variant="h6" color="text.primary" align="center">
+                  Are you sure?
+                </Typography>
 
-              <Typography variant="h6" color="text.primary" align="center">
-                Are you sure?
-              </Typography>
-
-              <Navbar
-                showMenuButton={false}
-              >
-                {
-                  ["Yes", "No"].map((option, index) => (
-                    <Button
-                      variant="outlined"
-                      color="secondary"
-                      sx={navbarButtons}
-                      startIcon={index === 0 ? <DoneIcon /> : <CloseIcon />}
-                      onClick={() => {
-                        option === "Yes" ? (
-                          depositToMyAccount ? confirmDepositToMyAccount() : confirmDepositToExternalAccount()
-                        ) : cancelDeposit()
-                      }}
-                      key={index}
-                    >
-                      {option}
-                    </Button>
-                  ))
-                }
-              </Navbar>
-            </>
-          )
-        }
+                <Navbar
+                  showMenuButton={false}
+                >
+                  {
+                    ["Yes", "No"].map((option, index) => (
+                      <Button
+                        variant="outlined"
+                        color="secondary"
+                        sx={navbarButtons}
+                        startIcon={index === 0 ? <DoneIcon /> : <CloseIcon />}
+                        onClick={() => {
+                          option === "Yes" ? (
+                            depositToMyAccount ? confirmDepositToMyAccount() : confirmDepositToExternalAccount()
+                          ) : cancelDeposit()
+                        }}
+                        key={index}
+                      >
+                        {option}
+                      </Button>
+                    ))
+                  }
+                </Navbar>
+              </>
+            )
+          }
+        </Box>
       </Box>
-    </Box>
+    </ATMContainer>
   )
 }

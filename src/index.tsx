@@ -12,6 +12,7 @@ import ChangePin from "./pages/ChangePin"
 import Operations from "./pages/Operations"
 import MakeDeposit from "./pages/MakeDeposit"
 import WithdrawCash from "./pages/WithdrawCash"
+import TransferFounds from "./pages/TransferFounds"
 
 // styles
 import "./styles/main.css"
@@ -24,24 +25,24 @@ const root = createRoot(container)
 
 const ATM = () => {
   return (
-    <GlobalProvider>
-      <Router>
+    <Router>
+      <GlobalProvider>
         <Routes>
           <Route path="/" element={<Login />} />
 
           <Route path="/menu/" element={<Menu />} />
-          
+
           <Route path="/pin/change/" element={<ChangePin />} />
           <Route path="/make-deposit/" element={<MakeDeposit />} />
           <Route path="/balance/" element={<Balance />} />
           <Route path="/withdraw-cash/" element={<WithdrawCash />} />
-
+          <Route path="/transfer-founds/" element={<TransferFounds />} />
           <Route path="/operation/:result" element={<Operations />} />
 
           <Route path="*" element={<NotFound />} />
         </Routes>
-      </Router>
-    </GlobalProvider>
+      </GlobalProvider>
+    </Router>
   )
 }
 

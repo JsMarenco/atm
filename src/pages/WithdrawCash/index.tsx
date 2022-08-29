@@ -7,6 +7,8 @@ import { useNavigate } from "react-router-dom"
 import { ClientContext } from "../../context/ClientContext"
 import { INSUFFICIENT_BALANCE } from "../../components/contants/messages"
 import { MessageContext } from "../../context/MessageContext"
+import ATMContainer from "../../components/ATMContainer"
+import Navbar from "../../components/Navbar"
 
 export default function WithdrawCash() {
   const {
@@ -20,10 +22,6 @@ export default function WithdrawCash() {
 
   const navigate = useNavigate()
 
-  const cancelWithdraw = () => {
-    navigate("/operation/fail/")
-  }
-
   const withdraw = (amountToWithdraw: number) => {
     if (amountToWithdraw > balance) {
       handleMessage(INSUFFICIENT_BALANCE, "error")
@@ -34,7 +32,7 @@ export default function WithdrawCash() {
   }
 
   return (
-    <>
+    <ATMContainer>
       <Box
         sx={mainContainerStyle}
       >
@@ -113,21 +111,10 @@ export default function WithdrawCash() {
             </Stack>
           </Box>
 
-          <Button
-            variant="outlined"
-            color="secondary"
-            sx={{
-              mt: 2,
-            }}
-            onClick={cancelWithdraw}
-          >
-            <Typography variant="h6" color="text.primary">
-              Cancel
-            </Typography>
-          </Button>
+          <Navbar showMenuButton={false} />
         </Box>
       </Box>
-    </>
+    </ATMContainer>
   )
 }
 

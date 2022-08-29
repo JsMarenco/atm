@@ -1,20 +1,19 @@
-import React, { useEffect, useState } from "react"
+import React, { useEffect } from "react"
 import { useNavigate, useParams } from "react-router-dom"
 import { changeTitle } from "../../utils"
-import { Box, Typography, Button, Stack, CircularProgress } from "@mui/material"
+import { Box, Typography, Button } from "@mui/material"
 import { mainContainerStyle, centeredContainerStyle } from "../../styles/containers"
 import ErrorIcon from "@mui/icons-material/Error"
 import CheckCircleIcon from "@mui/icons-material/CheckCircle"
 import ReportIcon from "@mui/icons-material/Report"
+import ATMContainer from "../../components/ATMContainer"
+import Navbar from "../../components/Navbar"
+import { navbarButtons } from "../../styles/button"
 
 export default function Operations() {
   const navigate = useNavigate()
 
-  const {
-    result,
-  } = useParams()
-
-  const [loading, setLoading] = useState(true)
+  const { result, } = useParams()
 
   useEffect(() => {
     if (result === "success") {
@@ -25,83 +24,65 @@ export default function Operations() {
       changeTitle("Operation canceled")
     }
 
-    setLoading(false)
-
     setTimeout(() => { navigate("/menu/") }, 5000)
   }, [])
 
   return (
-    <>
-      <Box
-        sx={mainContainerStyle}
-      >
-        {
-          loading ? (
-            <Box sx={{ display: "flex" }}>
-              <CircularProgress />
-            </Box>
-          ) : (
-            <Box
-              sx={centeredContainerStyle}
-            >
-              {
-                result === "success" ? (
-                  <CheckCircleIcon sx={{ color: "text.primary", fontSize: 40 }} />
-                ) : (
-                  <ErrorIcon sx={{ color: "text.primary", fontSize: 40 }} />
-                )
-              }
+    <ATMContainer>
+      <Box sx={mainContainerStyle}>
+        <Box sx={centeredContainerStyle}>
+          {
+            result === "success" ? (
+              <CheckCircleIcon sx={{ color: "success", fontSize: 55 }} />
+            ) : (
+              <ErrorIcon sx={{ color: "error", fontSize: 55 }} />
+            )
+          }
 
-              <Typography
-                variant="h4"
-                color="text.primary"
-                align="center"
+          <Typography
+            variant="h4"
+            color="text.primary"
+            align="center"
+          >
+            {result === "success" ? "Operation success" : result === "fail" ? "Operation failed" : "Operation canceled"}
+          </Typography>
+
+          <Typography
+            variant="body2"
+            color="text.primary"
+            align="center"
+          >
+            {result === "fail" ? "Please try again" : "Thanks for using our services"}
+          </Typography>
+
+          <Typography
+            variant="body2"
+            color="text.primary"
+            align="center"
+          >
+            You will be redirected to menu in 5 seconds
+          </Typography>
+
+          {
+            result === "fail" && (
+              <Navbar
+                showCancelButton={false}
+                showMenuButton={false}
               >
-                {result === "success" ? "Operation success" : result === "fail" ? "Operation failed" : "Operation canceled"}
-              </Typography>
-
-              <Typography
-                variant="body2"
-                color="text.primary"
-                align="center"
-              >
-                {result === "fail" ? "Please try again" : "Thanks for using our services"}
-              </Typography>
-
-              <Typography
-                variant="body2"
-                color="text.primary"
-                align="center"
-              >
-                You will be redirected to menu in 5 seconds
-              </Typography>
-
-              {
-                result === "fail" && (
-                  <Stack
-                    mt={2}
-                  >
-                    <Button
-                      variant="contained"
-                      color="primary"
-                      onClick={() => navigate("/report-issue/")}
-                      startIcon={<ReportIcon />}
-                    >
-                      <Typography
-                        variant="body2"
-                        color="text.primary"
-                        align="center"
-                      >
-                        Report issue
-                      </Typography>
-                    </Button>
-                  </Stack>
-                )
-              }
-            </Box>
-          )
-        }
+                <Button
+                  variant="outlined"
+                  color="secondary"
+                  onClick={() => navigate("/report-issue/")}
+                  startIcon={<ReportIcon />}
+                  sx={navbarButtons}
+                >
+                  Report issue
+                </Button>
+              </Navbar>
+            )
+          }
+        </Box>
       </Box>
-    </>
+    </ATMContainer>
   )
 }

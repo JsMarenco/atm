@@ -48,7 +48,7 @@ export default function ButtonRoutes() {
       label: "Transfer Funds",
       icon: <ArrowForwardOutlinedIcon sx={iconStyle} />,
       onClick: () => {
-        navigate("/transfer-funds/")
+        navigate("/transfer-founds/")
       }
     },
     {

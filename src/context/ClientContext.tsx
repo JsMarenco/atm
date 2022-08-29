@@ -1,4 +1,6 @@
-import React, { createContext, useState } from "react"
+import React, { createContext, useContext, useState } from "react"
+import { useNavigate } from "react-router-dom"
+import { MessageContext } from "./MessageContext"
 
 interface IClientContext {
   isLoggedIn: boolean
@@ -12,6 +14,7 @@ interface IClientContext {
   handleLastDigits: (value: string) => void
   handleClientReset: () => void
   handleLogIn: () => void
+  handleValidateSession: () => boolean
 }
 
 interface IClientProps {
@@ -21,6 +24,10 @@ interface IClientProps {
 export const ClientContext = createContext({} as IClientContext)
 
 export const ClientProvider = (props: IClientProps) => {
+  const { handleMessage } = useContext(MessageContext)
+
+  const navigate = useNavigate()
+
   const [accountNumber, setAccountNumber] = useState("")
   const [LastDigits, setLastDigits] = useState("")
   const [pin, setPin] = useState("")
@@ -37,11 +44,10 @@ export const ClientProvider = (props: IClientProps) => {
     setPin(value)
   }
   const handleBalance = (value: number) => {
-    setBalance(balance + value)
+    setBalance(value)
   }
 
   const handleLogIn = () => {
-    console.log("log in")
     setIsLoggedIn(true)
   }
 
@@ -51,6 +57,15 @@ export const ClientProvider = (props: IClientProps) => {
     setPin("")
     setBalance(0)
     setIsLoggedIn(false)
+  }
+
+  const handleValidateSession = () => {
+    if(!isLoggedIn) {
+      handleMessage("Please, you have to login before use our services", "error")
+      navigate("/")
+    }
+
+    return isLoggedIn ? false : true
   }
 
   return (
@@ -66,7 +81,8 @@ export const ClientProvider = (props: IClientProps) => {
         handlePin,
         handleBalance,
         handleClientReset,
-        handleLogIn
+        handleLogIn,
+        handleValidateSession,
       }}
     >
       {props.children}

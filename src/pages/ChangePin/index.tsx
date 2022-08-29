@@ -8,6 +8,8 @@ import { MessageContext } from "../../context/MessageContext"
 import { ClientContext } from "../../context/ClientContext"
 import { Box } from "@mui/material"
 import { changeTitle } from "../../utils"
+import ATMContainer from "../../components/ATMContainer"
+import Navbar from "../../components/Navbar"
 
 export default function ChangePin() {
   const {
@@ -52,12 +54,14 @@ export default function ChangePin() {
   }, [numPadValue, step])
 
   return (
-    <>
+    <ATMContainer>
       <Box sx={mainContainerStyle}>
         <Box sx={centeredContainerStyle}>
           <NumPad />
+
+          <Navbar showMenuButton={false} />
         </Box>
       </Box>
-    </>
+    </ATMContainer>
   )
 }
