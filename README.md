@@ -23,10 +23,10 @@ The ATM is currently in development.
 
 ### In development
 - Pay bills
-- Transfer funds
 - Connect to an API
 
 ### In production
+- Transfer funds
 - Withdraw cash
 - Change PIN
 - Make a deposit

@@ -88,3 +88,14 @@ export const generateRandomCardNumber = () => {
 
   return finalString
 }
+
+// detect system theme
+export const detectSystemTheme = () => {
+  const systemTheme = window.matchMedia("(prefers-color-scheme: dark)")
+
+  if (systemTheme.matches) {
+    return "dark"
+  }
+
+  return "light"
+}

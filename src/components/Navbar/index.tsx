@@ -23,7 +23,7 @@ export default function Navbar(props: INavbarProps) {
         ...centeredContainerStyle,
         height: "auto",
         p: 1,
-        bg: "none",
+        bgcolor: "none",
         boxShadow: "none",
         flexDirection: "row",
         flexWrap: "wrap",

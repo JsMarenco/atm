@@ -33,9 +33,9 @@ export default function Operations() {
         <Box sx={centeredContainerStyle}>
           {
             result === "success" ? (
-              <CheckCircleIcon sx={{ color: "success", fontSize: 55 }} />
+              <CheckCircleIcon sx={{ color: "text.primary", fontSize: 55 }} />
             ) : (
-              <ErrorIcon sx={{ color: "error", fontSize: 55 }} />
+              <ErrorIcon sx={{ color: "text.primary", fontSize: 55 }} />
             )
           }
 

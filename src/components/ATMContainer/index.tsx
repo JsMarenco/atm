@@ -14,7 +14,7 @@ interface IATMContainer {
 }
 
 export default function ATMContainer(props: IATMContainer) {
-  const { handleValidateSession } = useContext(ClientContext)
+  const { isLoggedIn } = useContext(ClientContext)
   const location = useLocation()
   const navigate = useNavigate()
   const [loading, setLoading] = useState(true)
@@ -22,7 +22,7 @@ export default function ATMContainer(props: IATMContainer) {
   useEffect(() => {
     changeTitle("Loading...")
 
-    setLoading(handleValidateSession())
+    setLoading(!isLoggedIn)
   }, [location])
 
   return (

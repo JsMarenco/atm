@@ -3,7 +3,7 @@ import React, { createContext, useEffect, useState } from "react"
 import { ThemeProvider } from "@mui/material"
 
 import { light, dark } from "../theme"
-import { changeBackground } from "../utils"
+import { changeBackground, detectSystemTheme } from "../utils"
 
 interface IToggleModeContext {
   AtmThemeName: string
@@ -22,8 +22,18 @@ export const ToggleModeProvider = (props: ToggleModeProps) => {
   const [AtmThemeName, setAtmThemeName] = useState("light")
 
   useEffect(() => {
-    changeBackground(AtmTheme.palette.background.default)
-  }, [AtmThemeName])
+    const systemTheme = detectSystemTheme()
+
+    if (systemTheme === "dark") {
+      setAtmTheme(dark)
+      setAtmThemeName("dark")
+    } else {
+      setAtmTheme(light)
+      setAtmThemeName("light")
+    }
+  }, [])
+
+  useEffect(() => { changeBackground(AtmTheme.palette.background.default) }, [AtmThemeName])
 
   const toggleTheme = () => {
     setAtmTheme(() => AtmTheme === light ? dark : light)

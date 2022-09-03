@@ -7,14 +7,13 @@ import { NumPadContext } from "../../context/NumPadContext"
 import { ERROR_LARGE_AMOUNT, ERROR_LARGE_AMOUNT_DESCRIPTION } from "../../components/contants/messages"
 import { MessageContext } from "../../context/MessageContext"
 import { useNavigate } from "react-router-dom"
-import DoneIcon from "@mui/icons-material/Done"
-import CloseIcon from "@mui/icons-material/Close"
 import Navbar from "../../components/Navbar"
 import AccountCircleIcon from "@mui/icons-material/AccountCircle"
 import { navbarButtons } from "../../styles/button"
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos"
 import { ClientContext } from "../../context/ClientContext"
 import ATMContainer from "../../components/ATMContainer"
+import CustomDialog from "../../components/CustomDialog"
 
 const FIRST_STEP = "account-to-deposit"
 const SECOND_STEP = "amount-to-deposit"
@@ -107,6 +106,7 @@ export default function MakeDepositV2() {
     setExternalAccount("")
     setIsSure(false)
     setShowNumPad(false)
+    handleMessage("Deposit canceled", "success")
   }
 
   return (
@@ -181,56 +181,13 @@ export default function MakeDepositV2() {
 
           {
             (depositToMyAccount || depositToExternalAccount) && isSure && (
-              <>
-                <Typography
-                  variant="h5"
-                  color="text.primary"
-                  align="center"
-                >
-                  {
-                    depositToExternalAccount && "Account to deposit"
-                  }
-                </Typography>
-
-                <Typography
-                  variant="h4"
-                  color="text.primary"
-                  align="center"
-                >
-                  {externalAccountOwnerName}
-                </Typography>
-
-                <Typography variant="h5" color="text.primary" align="center">
-                  {`You will deposit ${"$" + amount} to ${externalAccount === "" ? "your account" : `#${externalAccount}`}`}
-                </Typography>
-
-                <Typography variant="h6" color="text.primary" align="center">
-                  Are you sure?
-                </Typography>
-
-                <Navbar
-                  showMenuButton={false}
-                >
-                  {
-                    ["Yes", "No"].map((option, index) => (
-                      <Button
-                        variant="outlined"
-                        color="secondary"
-                        sx={navbarButtons}
-                        startIcon={index === 0 ? <DoneIcon /> : <CloseIcon />}
-                        onClick={() => {
-                          option === "Yes" ? (
-                            depositToMyAccount ? confirmDepositToMyAccount() : confirmDepositToExternalAccount()
-                          ) : cancelDeposit()
-                        }}
-                        key={index}
-                      >
-                        {option}
-                      </Button>
-                    ))
-                  }
-                </Navbar>
-              </>
+              <CustomDialog
+                ownerAccount={externalAccountOwnerName}
+                content={`You will deposit ${"$" + amount} to ${externalAccount === "" ? "your account" : `#${externalAccount}`}`}
+                confirmOperation={depositToMyAccount ? confirmDepositToMyAccount : confirmDepositToExternalAccount}
+                cancelOperation={cancelDeposit}
+                tabTitle="Confirm deposit"
+              />
             )
           }
         </Box>
